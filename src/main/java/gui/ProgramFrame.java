@@ -1,10 +1,12 @@
+package gui;
+
+import domain.KeysListener;
+import domain.PasswordController;
+import domain.PasswordGenerator;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.time.LocalTime;
 
 /**
  * Класс приложения
@@ -23,13 +25,14 @@ public class ProgramFrame extends JFrame {
     private JCheckBox cbNumbers;
     private JTextField thPasswordLength;
     private JButton jButton2;
-    private final PasswordService passwordService = new PasswordService();
+    private final PasswordController passwordGenerator = new PasswordGenerator();
 
     public void showKeyHold(String averageKeyHold) {
         taKeyHold.setText(averageKeyHold);
     }
 
     public ProgramFrame() {
+
         KeysListener keysListener = new KeysListener(ProgramFrame.this);
         tfPhrase.addKeyListener(keysListener);
         setContentPane(mainPanel);
@@ -47,8 +50,10 @@ public class ProgramFrame extends JFrame {
                 if ((passwordLength = thPasswordLength.getText()).equals("")) {
                     passwordLength = "10";
                 }
-                String str = passwordService.generatePassword(Integer.parseInt(passwordLength), cbNumbers.isSelected(), cbSpecialSigns.isSelected(), cbUpperCase.isSelected());
-                taPassword1.setText(str);
+
+                taPassword1.setText(passwordGenerator.generatePassword(Integer.parseInt(passwordLength),
+                        cbNumbers.isSelected(),
+                        cbSpecialSigns.isSelected(), cbUpperCase.isSelected()));
             }
         });
         jButton2.addActionListener(new ActionListener() {
@@ -61,5 +66,6 @@ public class ProgramFrame extends JFrame {
                 taKeyHold.setText("");
             }
         });
+
     }
 }
