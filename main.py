@@ -215,5 +215,5 @@ def create_main_window_input():
 
 
 if __name__ == '__main__':
-    create_main_window_input()
-    # insert_values_in_table_authorized_users('123', datetime.now().strftime(f'%Y/%m/%d'), datetime.now().strftime(f'%Y/%m/%d'), (6, 41, 7))
+    # create_main_window_input()
+    insert_values_in_table_authorized_users('123', datetime.now().strftime(f'%Y/%m/%d'), datetime.now().strftime(f'%Y/%m/%d'), (6, 41, 7))
