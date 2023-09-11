@@ -1,3 +1,7 @@
+package domain;
+
+import gui.ProgramFrame;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.time.LocalTime;
@@ -50,6 +54,7 @@ public class KeysListener implements KeyListener {
 
         // Вывод в taKeyHold среднего времени удержания клавиш
         programFrame.showKeyHold(String.valueOf(averageRetentionTime[1] / averageRetentionTime[0]));
+
         initialTime = null;
     }
 }
