@@ -1,3 +1,5 @@
+package domain;
+
 import java.security.SecureRandom;
 
 /**
@@ -5,10 +7,8 @@ import java.security.SecureRandom;
  *
  * @autor Pycukvsu
  */
-public class PasswordService {
-    private StringBuilder alphabet;
+public class PasswordGenerator implements PasswordController {
     private final SecureRandom secureRandom = new SecureRandom();
-    private StringBuilder password;
 
     /**
      * Метод генерирует рандомные пароли.
@@ -22,10 +22,12 @@ public class PasswordService {
      *
      * @return password - получившийся пароль
      */
+    @Override
     public String generatePassword(int length, boolean numbers,
                                    boolean punctuationMarks, boolean upperCase) {
-        password = new StringBuilder();
-        alphabet = new StringBuilder();
+        //StringBuilder password = new StringBuilder();
+        StringBuilder alphabet = new StringBuilder();
+        byte[] password = new byte[length];
 
         // Добавление в алфавит сиволов
         // Нижний регистр по дефолту добавляется
@@ -41,11 +43,12 @@ public class PasswordService {
         }
 
         if (length > alphabet.length()){
-            return "Уменьшите длину пароля";
+            return "Укажите длину поменьше";
         }
 
         // Обработка повторяющихся символов
         // Индексы сохраняются в replay
+        int j = 0;
         StringBuilder replay = new StringBuilder();
         for (int i = 0; i < length; i++) {
             int randomIndex = secureRandom.nextInt(alphabet.length());
@@ -54,12 +57,14 @@ public class PasswordService {
             // то добавляем по этому индексу символ из alphabet в password
             // и добавляем randomIndex в replay
             if (!replay.toString().contains(Integer.toString(randomIndex))) {
-                password.append(alphabet.charAt(randomIndex));
+                //password2.append(alphabet.charAt(randomIndex));
+                password[j] = (byte) alphabet.charAt(randomIndex);
                 replay.append(randomIndex);
+                j++;
             } else {
                 length++;
             }
         }
-        return password.toString();
+        return new String(password);
     }
 }
