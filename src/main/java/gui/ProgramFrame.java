@@ -1,8 +1,8 @@
 package gui;
 
 import domain.KeysListener;
+import domain.PasswordBuilder;
 import domain.PasswordGenerator;
-import domain.DefaultGenerator;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +25,7 @@ public class ProgramFrame extends JFrame {
     private JCheckBox cbNumbers;
     private JTextField thPasswordLength;
     private JButton jButton2;
-    private final PasswordGenerator passwordGenerator = new DefaultGenerator();
+    private final PasswordBuilder passwordBuilder = new PasswordGenerator();
 
     public void showKeyHold(String averageKeyHold) {
         taKeyHold.setText(averageKeyHold);
@@ -51,7 +51,7 @@ public class ProgramFrame extends JFrame {
                     passwordLength = "10";
                 }
 
-                taPassword1.setText(passwordGenerator.generatePassword(Integer.parseInt(passwordLength),
+                taPassword1.setText(passwordBuilder.generatePassword(Integer.parseInt(passwordLength),
                         cbNumbers.isSelected(),
                         cbSpecialSigns.isSelected(), cbUpperCase.isSelected()));
             }
