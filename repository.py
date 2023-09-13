@@ -1,6 +1,5 @@
 import logging
 import os
-import sqlalchemy.types
 from dotenv import load_dotenv
 from sqlalchemy import MetaData, create_engine, Column, ForeignKey, Date
 from sqlalchemy.dialects.postgresql import ARRAY

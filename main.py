@@ -2,13 +2,11 @@
 import io
 import logging
 import os
-import threading
 import time
 from collections.abc import Iterable
 import tkinter as tk
 from datetime import datetime
-from tkinter import ttk
-import keyboard
+from enum import Enum
 from repository import insert_values_in_table_authorized_users
 from alphabet_module import assemble_alphabet
 from access_code_module import AccessCode
@@ -24,196 +22,165 @@ logging.basicConfig(filename='logfile.log',
                     datefmt='%d/%m/%Y %I:%M:%S %p')
 
 
-def save_and_register_access_code(path: str, access_code: AccessCode, metrics: Iterable[float, float, float]) -> bool:
-    try:
-        dirs = path.split('/')[:-1]
-
-        new_dirs = io.StringIO()
-        for d in dirs:
-            new_dirs.write(f'{d}/')
-            if not os.path.exists(new_dirs.getvalue()):
-                os.makedirs(new_dirs.getvalue())
-    except Exception as e:
-        logging.exception(e)
-    try:
-        with open(path, mode='w', encoding='utf-8') as file:
-            file.write(access_code.value)
-
-        insert_values_in_table_authorized_users(access_code.hashed_value,
-                                                access_code.creation_date,
-                                                access_code.expiration_date,
-                                                metrics)
-        return True
-    except Exception as e:
-        logging.exception(e)
-
-
-def create_main_window_generation_access_code():
-    logging.info('Создание начального окна!')
-    root = tk.Tk()
-
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-
-    x = (screen_width - root.winfo_reqwidth() - 400) / 2
-    y = (screen_height - root.winfo_reqheight() - 400) / 2
-
-    root.geometry('600x500+%d+%d' % (x, y))
-
-    title_1 = tk.Label(root, text='\naccess_code generator\n')
-    title_1.pack()
-
-    label1 = tk.Label(root, text='Lower case?')
-    label1.pack()
-
-    values1 = {'yes': 'LOWER_CASE', 'no': None}
-    combo1 = ttk.Combobox(root, values=list(values1.keys()))
-    combo1.pack()
-
-    label2 = tk.Label(root, text='Upper case?')
-    label2.pack()
-
-    values2 = {'yes': 'UPPER_CASE', 'no': None}
-    combo2 = ttk.Combobox(root, values=list(values2.keys()))
-    combo2.pack()
-
-    label3 = tk.Label(root, text='Digits?')
-    label3.pack()
-
-    values3 = {'yes': 'DIGITS', 'no': None}
-    combo3 = ttk.Combobox(root, values=list(values3.keys()))
-    combo3.pack()
-
-    label4 = tk.Label(root, text='Punctuation?')
-    label4.pack()
-
-    values4 = {'yes': 'PUNCTUATION', 'no': None}
-    combo4 = ttk.Combobox(root, values=list(values4.keys()))
-    combo4.pack()
-
-    label4 = tk.Label(root, text='Length:')
-    label4.pack()
-
-    entry1 = tk.Entry(root)
-    entry1.pack()
-
-    def generation(length: int, *alphabets: Iterable) -> AccessCode:
-        my_alphabet: str = assemble_alphabet(alphabets)
-        logging.info('Пароль начал генерацию!')
-        return AccessCode(my_alphabet, length)
-
-    s = tk.Label(root, padx=15, pady=15)
-    s.pack(fill=tk.NONE, expand=True)
-
-    access_code: AccessCode = None
-
-    def generate_access_code():
-        nonlocal access_code
-        access_code = generation(int(entry1.get()),
-                                 values1[combo1.get()],
-                                 values2[combo2.get()],
-                                 values3[combo3.get()],
-                                 values4[combo4.get()])
-        s.config(text=access_code.value)
-
-    button1 = tk.Button(root, text='Generate the access code', command=generate_access_code)
-    button1.pack(fill=tk.NONE, expand=True)
-
-    class RegisterWindow(tk.Toplevel):
-        def __init__(self, parent):
-            super().__init__(parent)
-            self.parent = parent
-            self.title("Password Register")
-            self.geometry("300x200")
-            self.password = ""
-            self.start_time = 0
-            self.end_time = 0
-            self.interval_list = []
-            self.error_count = 0
-
-            self.input_field = tk.Entry(self)
-            self.input_field.pack(pady=10)
-            self.input_field.focus_set()
-
-            self.bind("<Key>", self.on_key_press)
-            self.bind("<Return>", self.on_enter_press)
-
-        def on_key_press(self, event):
-            if event.keysym == "BackSpace":
-                if len(self.password) > 0:
-                    self.password = self.password[:-1]
-                else:
-                    self.error_count += 1
-            else:
-                self.password += event.char
-            if len(self.password) == 1:
-                self.start_time = time.time()
-            elif len(self.password) > 1:
-                self.interval_list.append(time.time() - self.end_time)
-            self.end_time = time.time()
-
-        def on_enter_press(self, event):
-            self.parent.clipboard_clear()
-            self.parent.clipboard_append(self.password)
-            self.destroy()
-
-        def wait_for_typing(self):
-            self.grab_set()
-            self.wait_window()
-
-    def register_and_save():
-        window = RegisterWindow(root)
-        window.wait_for_typing()
-        print("Password:", window.password)
-        print("Start Time:", window.start_time)
-        print("End Time:", window.end_time)
-        print("Interval List:", window.interval_list)
-        print("Error Count:", window.error_count)
-
-    button_register = tk.Button(root, text='Register and save as', command=lambda: register_and_save)
-    button_register.pack(fill=tk.NONE, expand=True)
-
-    entry = tk.Entry(root)
-    entry.insert(0, 'output/your_access_code.txt')
-    entry.pack(fill=tk.NONE, expand=True)
-
-    root.mainloop()
-
-
-def user_authentication(access_code):
-    pass
-
-
-def create_main_window_input():
-    logging.info('Создание начального окна для ввода пароля!')
-    root = tk.Tk()
-
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
-
-    x = (screen_width - root.winfo_reqwidth() - 400) / 2
-    y = (screen_height - root.winfo_reqheight() - 400) / 2
-
-    root.geometry('600x500+%d+%d' % (x, y))
-
-    title_1 = tk.Label(root, text='\nAuthentication\n')
-    title_1.pack()
-
-    entry1 = tk.Entry(root)
-    entry1.pack()
-
-    button1 = tk.Button(root, text='Authenticate', command=lambda: user_authentication(access_code=entry1.get()))
-    button1.pack()
-
-    title_2 = tk.Label(root, text='\nor\n')
-    title_2.pack()
-
-    button2 = tk.Button(root, text='Get access code', command=lambda: create_main_window_generation_access_code())
-    button2.pack()
-
-    root.mainloop()
-
-
-if __name__ == '__main__':
-    # create_main_window_input()
-    insert_values_in_table_authorized_users('123', datetime.now().strftime(f'%Y/%m/%d'), datetime.now().strftime(f'%Y/%m/%d'), (6, 41, 7))
+# class WindowType(Enum):
+#     MAIN = 1
+#     ACCESS_CODE = 2
+#     METRICS_CALCULATION = 3
+#
+#
+# class WindowFactory:
+#     @staticmethod
+#     def create_window(window_type):
+#         if window_type == WindowType.MAIN:
+#             return MainWindowForAuthentication()
+#         elif window_type == WindowType.ACCESS_CODE:
+#             return WindowForGenerationAccessCode()
+#         elif window_type == WindowType.METRICS_CALCULATION:
+#             pass
+#         else:
+#             raise ValueError("Invalid window type")
+#
+#
+# class WindowForGenerationAccessCode(tk.Toplevel):
+#     def __init__(self):
+#         super().__init__()
+#         logging.info('Создание начального окна для ввода пароля!')
+#         self.__geometry(offset=(200, 250), size=(400, 400))
+#         self.__content()
+#         self._access_code: AccessCode | None = None
+#
+#     def __geometry(self, *, offset: tuple[int, int], size: tuple[int, int]):
+#         screen_width = self.winfo_screenwidth()
+#         screen_height = self.winfo_screenheight()
+#
+#         x = (screen_width - self.winfo_reqwidth() - offset[0]) / 2
+#         y = (screen_height - self.winfo_reqheight() - offset[1]) / 2
+#
+#         self.geometry('%dx%d+%d+%d' % (size[0], size[1], x, y))
+#
+#     def __content(self):
+#         self.lower_case_flag = tk.BooleanVar()
+#         self.lower_case_check = tk.Checkbutton(text='Lower case', variable=self.lower_case_flag)
+#         self.lower_case_check.pack()
+#
+#         self.upper_case_flag = tk.BooleanVar()
+#         self.upper_case_check = tk.Checkbutton(text='Upper case', variable=self.upper_case_flag)
+#         self.upper_case_check.pack()
+#
+#         self.digits_flag = tk.BooleanVar()
+#         self.digits_check = tk.Checkbutton(text='Digits', variable=self.digits_flag)
+#         self.digits_check.pack()
+#
+#         self.punctuation_flag = tk.BooleanVar()
+#         self.punctuation_check = tk.Checkbutton(text='Punctuation', variable=self.punctuation_flag)
+#         self.punctuation_check.pack()
+#
+#         self.length_label = tk.Label(text='Length:')
+#         self.length_label.pack()
+#
+#         self.length_entry = tk.Entry()
+#         self.length_entry.pack()
+#
+#         self.s = tk.Label()
+#         self.s.pack(pady=15, fill=tk.NONE, expand=True)
+#
+#         self.generation_button = tk.Button(text='Generate the access code', command=self.__generate_an_access_code)
+#         self.generation_button.pack(fill=tk.NONE, expand=True)
+#
+#         self.registration_button = tk.Button(text='Register and save as',
+#                                              command=lambda: self.__save_and_register_access_code([1, 2, 3]))
+#         self.registration_button.pack(fill=tk.NONE, expand=True)
+#
+#         self.path_entry = tk.Entry()
+#         self.path_entry.insert(0, 'output/your_access_code.txt')
+#         self.path_entry.pack(fill=tk.NONE, expand=True)
+#
+#     def __generate_an_access_code(self):
+#         chosen_alphabets: tuple = ('LOWER_CASE' if self.lower_case_flag.get() else 'None',
+#                                    'UPPER_CASE' if self.upper_case_flag.get() else 'None',
+#                                    'DIGITS' if self.digits_flag.get() else 'None',
+#                                    'PUNCTUATION' if self.punctuation_flag.get() else 'None')
+#         my_alphabet: str = assemble_alphabet(chosen_alphabets)
+#
+#         my_length: int = int(self.length_entry.get())
+#
+#         logging.info('Код начал генерироваться!')
+#         self._access_code = AccessCode(my_alphabet, my_length)
+#
+#         self.s.config(text=self._access_code.value)
+#
+#     def __save_and_register_access_code(self, metrics: Iterable[float, float, float]) -> bool | None:
+#         try:
+#             path = self.path_entry.get()
+#
+#             current_dir = io.StringIO()
+#             dirs = path.split('/')[:-1]
+#             for d in dirs:
+#                 current_dir.write(f'{d}/')
+#                 if not os.path.exists(current_dir.getvalue()):
+#                     os.makedirs(current_dir.getvalue())
+#
+#             with open(path, mode='w', encoding='utf-8') as file:
+#                 file.write(self._access_code.value)
+#
+#             insert_values_in_table_authorized_users(self._access_code.hash_code.hex_hash_value,
+#                                                     self._access_code.hash_code.creation_date,
+#                                                     self._access_code.hash_code.expiration_date,
+#                                                     metrics)
+#             return True
+#         except Exception as e:
+#             logging.exception(e)
+#             return None
+#
+#
+# class MainWindowForAuthentication(tk.Tk):
+#     def __init__(self):
+#         super().__init__()
+#         self.__geometry(offset=(200, 250), size=(400, 400))
+#         self.__content()
+#         logging.info('Создание начального окна для ввода пароля!')
+#
+#     def __geometry(self, *, offset: tuple[int, int], size: tuple[int, int]):
+#         screen_width = self.winfo_screenwidth()
+#         screen_height = self.winfo_screenheight()
+#
+#         x = (screen_width - self.winfo_reqwidth() - offset[0]) / 2
+#         y = (screen_height - self.winfo_reqheight() - offset[1]) / 2
+#
+#         self.geometry('%dx%d+%d+%d' % (size[0], size[1], x, y))
+#
+#     def __content(self):
+#         self.title('Authentication')
+#
+#         self.title_1 = tk.Label(text='Authentication')
+#         self.title_1.pack(pady=5)
+#
+#         self.entry1 = tk.Entry()
+#         self.entry1.pack(pady=10)
+#
+#         self.button1 = tk.Button(text='Authenticate',
+#                                  command=lambda: self.__user_authentication(access_code=self.entry1.get))
+#         self.button1.pack()
+#
+#         self.title_2 = tk.Label(text='or')
+#         self.title_2.pack(pady=5)
+#
+#         self.button2 = tk.Button(text='Get access code',
+#                                  command=lambda: self.__create_window_for_generation_the_access_code)
+#         self.button2.pack()
+#
+#     def __create_window_for_generation_the_access_code(self):
+#         window = WindowForGenerationAccessCode()
+#         window.__geometry(offset=(200, 250), size=(400, 400))
+#         window.__content()
+#         window.mainloop()
+#         # window.destroy()
+#
+#     def __user_authentication(self, access_code):
+#         pass
+#
+#
+# if __name__ == '__main__':
+#     main = MainWindowForAuthentication()
+#     main.mainloop()
+    # insert_values_in_table_authorized_users('123', datetime.now().strftime(f'%Y/%m/%d'), datetime.now().strftime(f'%Y/%m/%d'), (6, 41, 7))

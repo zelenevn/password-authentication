@@ -20,16 +20,16 @@ Alphabet = Enum('Alphabet', [('LOWER_CASE', ascii_lowercase),
 
 
 @functools.lru_cache(maxsize=None)
-def assemble_alphabet(chosen_alphabets: Iterable) -> str | None:
+def assemble_alphabet(alphabets: Iterable) -> str | None:
     try:
         string_io = io.StringIO()
         for name, member in Alphabet.__members__.items():
-            if name in chosen_alphabets:
+            if name in alphabets:
                 string_io.write(member.value)
         if not bool(string_io.getvalue()):
             raise ValueError('Не был выбран какой-нибудь алфавит!')
         logging.info('Алфавит был успешно составлен!')
         return string_io.getvalue()
     except ValueError as e:
-        logging.error(f'Ошибка в assemble_alphabet! {e}')
+        logging.exception(f'Ошибка в assemble_alphabet! {e}')
         return None
