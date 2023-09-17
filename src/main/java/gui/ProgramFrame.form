@@ -160,14 +160,14 @@
             <properties>
               <font name="Courier New" size="14"/>
               <foreground color="-15329770"/>
-              <text value="Число наложений"/>
+              <text value="Удержание клавиш (мс)"/>
             </properties>
           </component>
           <component id="4dba3" class="javax.swing.JTextArea" binding="taKeyHold">
             <constraints/>
             <properties>
               <font name="Courier New"/>
-              <preferredSize width="148" height="25"/>
+              <preferredSize width="102" height="25"/>
               <wrapStyleWord value="false"/>
             </properties>
           </component>
