@@ -1,4 +1,4 @@
-package domain;
+package domain.listeners;
 
 import gui.ProgramFrame;
 
@@ -7,14 +7,14 @@ import java.awt.event.KeyListener;
 import java.time.LocalTime;
 import java.util.HashMap;
 
-public class KeysListener implements KeyListener {
+public class ListenerKeyHold implements KeyListener {
     private final ProgramFrame programFrame;
     private long[] averageRetentionTime = {0, 0};
     // в нулевом индексе количество нажатий
     // в первом общее время удержания в мс
-    private final HashMap<Character, Long> hashMap = new HashMap<>();
+    private final HashMap<Character, Long> pressingKeys = new HashMap<>();
 
-    public KeysListener(ProgramFrame programFrame) {
+    public ListenerKeyHold(ProgramFrame programFrame) {
         this.programFrame = programFrame;
     }
 
@@ -35,8 +35,8 @@ public class KeysListener implements KeyListener {
     public void keyPressed(KeyEvent keyEvent) {
 
         // Сохраняем нс нажатии клавиши в мапу
-        if (!hashMap.containsKey(keyEvent.getKeyChar())) {
-            hashMap.put(keyEvent.getKeyChar(), LocalTime.now().toNanoOfDay());
+        if (!pressingKeys.containsKey(keyEvent.getKeyChar())) {
+            pressingKeys.put(keyEvent.getKeyChar(), LocalTime.now().toNanoOfDay());
         }
     }
 
@@ -51,7 +51,7 @@ public class KeysListener implements KeyListener {
         averageRetentionTime[0]++;
 
         // Добавление в averageRetentionTime[1] мс удержания клавиши
-        averageRetentionTime[1] += (LocalTime.now().toNanoOfDay() - hashMap.remove(keyEvent.getKeyChar())) / 1000000;
+        averageRetentionTime[1] += (LocalTime.now().toNanoOfDay() - pressingKeys.remove(keyEvent.getKeyChar())) / 1000000;
 
         // Вывод в taKeyHold среднего времени удержания клавиш
         programFrame.showKeyHold(String.valueOf(averageRetentionTime[1] / averageRetentionTime[0]));
