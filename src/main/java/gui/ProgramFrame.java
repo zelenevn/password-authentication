@@ -1,8 +1,9 @@
 package gui;
 
-import domain.KeysListener;
-import domain.PasswordBuilder;
-import domain.PasswordGenerator;
+import domain.listeners.ListenerKeyHold;
+import domain.generators.PasswordGenerator;
+import domain.generators.PasswordGeneratorImpl;
+import domain.listeners.ListenerOverlayKey;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -25,7 +26,7 @@ public class ProgramFrame extends JFrame {
     private JCheckBox cbNumbers;
     private JTextField thPasswordLength;
     private JButton jButton2;
-    private final PasswordBuilder passwordBuilder = new PasswordGenerator();
+    private final PasswordGenerator passwordGenerator = new PasswordGeneratorImpl();
 
     public void showKeyHold(String averageKeyHold) {
         taKeyHold.setText(averageKeyHold);
@@ -33,8 +34,8 @@ public class ProgramFrame extends JFrame {
 
     public ProgramFrame() {
 
-        KeysListener keysListener = new KeysListener(ProgramFrame.this);
-        tfPhrase.addKeyListener(keysListener);
+        ListenerOverlayKey listenerKeyHold = new ListenerOverlayKey(ProgramFrame.this);
+        tfPhrase.addKeyListener(listenerKeyHold);
         setContentPane(mainPanel);
         setTitle("Password Generator");
         setSize(320, 450);
@@ -51,7 +52,7 @@ public class ProgramFrame extends JFrame {
                     passwordLength = "10";
                 }
 
-                taPassword1.setText(passwordBuilder.generatePassword(Integer.parseInt(passwordLength),
+                taPassword1.setText(passwordGenerator.generatePassword(Integer.parseInt(passwordLength),
                         cbNumbers.isSelected(),
                         cbSpecialSigns.isSelected(), cbUpperCase.isSelected()));
             }
@@ -61,7 +62,7 @@ public class ProgramFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 // Обнуление счетчика
-                keysListener.resetTheCounter();
+                listenerKeyHold.resetTheCounter();
                 tfPhrase.setText("");
                 taKeyHold.setText("");
             }
