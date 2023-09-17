@@ -1,4 +1,6 @@
-package domain;
+package domain.generators;
+
+import domain.generators.PasswordGenerator;
 
 import java.security.SecureRandom;
 
@@ -7,7 +9,7 @@ import java.security.SecureRandom;
  *
  * @autor Pycukvsu
  */
-public class PasswordGenerator implements PasswordBuilder {
+public class PasswordGeneratorImpl implements PasswordGenerator {
     private final SecureRandom secureRandom = new SecureRandom();
 
     /**

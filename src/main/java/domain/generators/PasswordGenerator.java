@@ -1,5 +1,5 @@
-package domain;
+package domain.generators;
 
-public interface PasswordBuilder {
+public interface PasswordGenerator {
     String generatePassword(int length, boolean numbers, boolean punctuationMarks, boolean upperCase);
 }
