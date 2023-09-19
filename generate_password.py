@@ -1,22 +1,16 @@
 import secrets as s
 import string
 
-LOWERCASE = string.ascii_lowercase
-UPPERCASE = string.ascii_uppercase
-DIGITS = string.digits
-PUNCTUATION = string.punctuation
+LOWERCASE = string.ascii_lowercase  # алфавит маленьких букв
+UPPERCASE = string.ascii_uppercase  # алфавит больших букв
+DIGITS = string.digits  # алфавит цифр
+PUNCTUATION = string.punctuation  # алфавит спецсимволов
 
-ALL_SYMBOLS = [LOWERCASE, UPPERCASE, DIGITS, PUNCTUATION]
-
-
-def create_dictionary(selected: list) -> list:
-    list_dictionary = []
-    for choice in selected:
-        list_dictionary.append(ALL_SYMBOLS[choice])
-    return list_dictionary
+ALL_SYMBOLS = [LOWERCASE, UPPERCASE, DIGITS, PUNCTUATION]  # список всех алфавитов
 
 
 def make_groups_distribution(count_groups: int, len_pass: int) -> list:
+    """Функция, генерирующая количество символов в пароле каждого вида, принимает номера алфавитов и длину пароля"""
     groups_distribution = list()
 
     for i in range(count_groups, 1, -1):
@@ -30,26 +24,30 @@ def make_groups_distribution(count_groups: int, len_pass: int) -> list:
 
 
 def generate_password(len_pass: int, num_selected_groups: list):
-    groups_distribution = make_groups_distribution(
+    """функция, принимающая необходимую длину пароля и требуемые символы"""
+    groups_distribution = make_groups_distribution(  # словарь вида номер группы: количество символов в пароле
         count_groups=len(num_selected_groups),
         len_pass=len_pass)
 
     parts_password = list()
 
-    for i, num in enumerate(num_selected_groups):
-        count = groups_distribution[i]
+    for i, num in enumerate(
+            num_selected_groups):  # i - индекс алфавита в groups_distribution, num - индекс алфавита в ALL_SYMBOLS
+        count = groups_distribution[i]  # получаем количество символов данной группы для пароля
         parts_password.append(
-            ''.join([s.choice(ALL_SYMBOLS[num]) for _ in range(count)])
+            ''.join([s.choice(ALL_SYMBOLS[num]) for _ in range(count)])  # генерируем пароль
         )
 
-    pre_ready_password = ''.join(parts_password)
+    pre_ready_password = ''.join(parts_password)  # создаем парольную строку
 
     return ''.join(
         s.SystemRandom().sample(
-            pre_ready_password, k=len(pre_ready_password)
+            pre_ready_password, k=len(pre_ready_password)  # перемешиваем строку
         )
     )
 
 
-for i in range(10):
-    print(generate_password(len_pass=10, num_selected_groups=[1, 2, 3]))
+if __name__ == '__main__':
+
+    for i in range(10):
+        print(generate_password(len_pass=10, num_selected_groups=[1, 2, 3]))
