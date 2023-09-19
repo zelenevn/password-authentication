@@ -1,9 +1,9 @@
-import execute
+import interface
 
 
 def main():
-    exec = execute.Execute()
-    exec.selection()
+    proc = interface.Interface()
+    proc.selection()
 
 
 if __name__ == "__main__":
