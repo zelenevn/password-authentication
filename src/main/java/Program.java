@@ -1,4 +1,4 @@
-import gui.ProgramFrame;
+import groupId.ProgramFrame;
 
 public class Program {
 

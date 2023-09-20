@@ -1,21 +1,24 @@
-package domain.listeners;
+package groupId.listeners;
 
-import gui.ProgramFrame;
+import groupId.ProgramFrame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.time.LocalTime;
+import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ListenerKeyHold implements KeyListener {
     private final ProgramFrame programFrame;
     private long[] averageRetentionTime = {0, 0};
     // в нулевом индексе количество нажатий
     // в первом общее время удержания в мс
-    private final HashMap<Character, Long> pressingKeys = new HashMap<>();
+    private final Map<Character, Long> pressingKeys;
 
     public ListenerKeyHold(ProgramFrame programFrame) {
         this.programFrame = programFrame;
+        this.pressingKeys = new HashMap<>();
     }
 
     public void resetTheCounter() {
@@ -29,7 +32,7 @@ public class ListenerKeyHold implements KeyListener {
     /**
      * Метод обрабатывает нажатие клавиши.
      *
-     * @param keyEvent the event to be processed
+     * @param keyEvent событие, подлежащее обработке
      */
     @Override
     public void keyPressed(KeyEvent keyEvent) {
@@ -43,7 +46,7 @@ public class ListenerKeyHold implements KeyListener {
     /**
      * Метод обрабатывает отпускание клавиши.
      *
-     * @param keyEvent the event to be processed
+     * @param keyEvent событие, подлежащее обработке
      */
     @Override
     public void keyReleased(KeyEvent keyEvent) {

@@ -1,21 +1,18 @@
-package domain.listeners;
+package groupId.listeners;
 
-import gui.ProgramFrame;
+import groupId.ProgramFrame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.time.LocalTime;
-import java.util.HashMap;
 
 public class ListenerOverlayKey implements KeyListener {
     private final ProgramFrame programFrame;
+    private Character clampedKey = 0;
+    private int numberOverlays = 0;
 
     public ListenerOverlayKey(ProgramFrame programFrame) {
         this.programFrame = programFrame;
     }
-
-    private Character clampedKey = 0;
-    private int numberOverlays = 0;
 
     public void resetTheCounter() {
         numberOverlays = 0;
@@ -29,7 +26,7 @@ public class ListenerOverlayKey implements KeyListener {
     /**
      * Метод обрабатывает нажатие клавиши.
      *
-     * @param e the event to be processed
+     * @param e событие, подлежащее обработке
      */
     @Override
     public void keyPressed(KeyEvent e) {
@@ -42,7 +39,7 @@ public class ListenerOverlayKey implements KeyListener {
     /**
      * Метод обрабатывает отпускание клавиши.
      *
-     * @param e the event to be processed
+     * @param e событие, подлежащее обработке
      */
     @Override
     public void keyReleased(KeyEvent e) {
@@ -50,10 +47,10 @@ public class ListenerOverlayKey implements KeyListener {
         // Если отпущенная клавиша не равна первой нажатой клавиши
         // то, к числу наложений добавляем единицу
         // и выводим число наложений в приложение
-        if (clampedKey != e.getKeyChar()){
+        if (clampedKey != e.getKeyChar()) {
             numberOverlays++;
             programFrame.showKeyHold(String.valueOf(numberOverlays));
-        }else if (clampedKey == e.getKeyChar()){
+        } else if (clampedKey == e.getKeyChar()) {
             clampedKey = 0;
         }
     }
