@@ -38,7 +38,6 @@ public class ProgramFrame extends JFrame {
         passwordGenerator = new PasswordGeneratorImpl(new SecureRandom());
         cbLanguage.addItem("English");
         cbLanguage.addItem("German");
-        cbLanguage.addItem("French");
         ListenerKeyHold listenerKeyHold = new ListenerKeyHold(ProgramFrame.this);
         tfPhrase.addKeyListener(listenerKeyHold);
         setContentPane(mainPanel);
