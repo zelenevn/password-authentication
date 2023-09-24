@@ -120,3 +120,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+./frontend/node_modules
+
+
