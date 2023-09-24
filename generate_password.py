@@ -25,6 +25,12 @@ def make_groups_distribution(count_groups: int, len_pass: int) -> list:
 
 def generate_password(len_pass: int, num_selected_groups: list):
     """функция, принимающая необходимую длину пароля и требуемые символы"""
+    if len_pass < 7:
+        raise ValueError('Пароль должен быть больше 6 символов')
+
+    if len(num_selected_groups) < 3:
+        raise ValueError('Алфавит пароля должен содержать не менее трех групп')
+
     groups_distribution = make_groups_distribution(  # словарь вида номер группы: количество символов в пароле
         count_groups=len(num_selected_groups),
         len_pass=len_pass)
@@ -48,21 +54,23 @@ def generate_password(len_pass: int, num_selected_groups: list):
 
 
 def interface():
-    len_pass_str = input("Введите желаему длину пароля: ")
+    len_pass_str = input("Введите желаемую длину пароля: ")
     len_pass = int(len_pass_str)
 
     num_selected_groups = []
-    for element in input("""Введите через пробел желаемые алфавиты для пароля:
-                        0: a-z,
-                        1: A-Z,
-                        2: 0-9
-                        3: спец. смволы
-                        """).split():
+    for element in input(
+            """Введите через пробел желаемые алфавиты для пароля:\n0: a-z,\n1: A-Z,\n2: 0-9\n3: спец. смволы\n"""
+    ).split():
         num_selected_groups.append(int(element))
 
     return len_pass, num_selected_groups
 
 
 if __name__ == '__main__':
-    len_pass, num_selected_groups = interface()
-    print("Пароль: " + generate_password(len_pass, num_selected_groups))
+    while True:
+        len_pass, num_selected_groups = interface()
+        try:
+            print("Пароль: " + generate_password(len_pass, num_selected_groups))
+            break
+        except ValueError:
+            print('Пароль должен содержать не менее трех групп символов и быть длиннее 6 символов')
