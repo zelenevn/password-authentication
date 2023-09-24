@@ -1,9 +1,11 @@
-import GeneratePasswordFrom from "./components/GeneratePasswordFrom";
+import GeneratePasswordForm from "./components/generate-password-form/GeneratePasswordForm";
+import Diagramm from "./components/diagramm/Diagramm";
 
 function App() {
   return (
     <div className="App">
-      <GeneratePasswordFrom/>
+      {/*<GeneratePasswordForm/>*/}
+        <Diagramm/>
     </div>
   );
 }

@@ -9,17 +9,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import ru.phoekoby.bmil.backend.dto.GeneratePasswordDto;
 import ru.phoekoby.bmil.backend.service.impl.PasswordServiceImpl;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Set;
-import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
