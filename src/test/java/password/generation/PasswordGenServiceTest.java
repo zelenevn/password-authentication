@@ -15,37 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class PasswordGenServiceTest
 {
-    private final PasswordGenService passwordGenService = new PasswordGenService();
 
-    /*
-    @Test
-    public void shouldUseNewEnum()
-    {
-        enum NewEnum implements Alphabet
-        {
-            E (Set.of('a', 'b', 'c', '1'));
-
-            private final Set<Character> symbols;
-
-            NewEnum(Set<Character> symbols)
-            {
-                this.symbols = symbols;
-            }
-
-            @Override
-            public Set<Character> getSymbols() {
-                return symbols;
-            }
-        }
-
-        String password = passwordGenService.generate(Set.of(NewEnum.E), 20);
-
-        assertThat(password).hasSize(20);
-        for (char sym : password.toCharArray())
-            assert(NewEnum.E.getSymbols().contains(sym));
-
-    }
-     */
+    private static final PasswordGenService passwordGenService = new PasswordGenService();
 
 
     @Test
@@ -53,16 +24,26 @@ public class PasswordGenServiceTest
     {
         List<Alphabet> alphabets = Arrays.asList(LATIN_LOWERCASE, LATIN_UPPERCASE, NUMBERS,
                 SPECIAL_SYM, SPACE, CYRILLIC_LOWERCASE, CYRILLIC_UPPERCASE);
-        String password = passwordGenService.generate(alphabets, 20);
+        char[] password = passwordGenService.generate(alphabets, 20);
 
         Set<Character> alphabet = alphabets.stream()
                 .flatMap(alphabetName -> alphabetName.getSymbols().stream())
                 .collect(Collectors.toSet());
 
         assertThat(password).hasSize(20);
-        for (char sym : password.toCharArray())
+        for (char sym : password)
             assertThat(sym).isIn(alphabet);
     }
 
+
+    @Test
+    public void shouldReplaceElementsWith0()
+    {
+        char[] password = new char[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+        passwordGenService.erasePswd(password);
+
+        assertThat(password).containsOnly((char) 0);
+    }
 
 }

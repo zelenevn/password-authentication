@@ -3,28 +3,34 @@ package com.barabanov.biometric.methods.password.generation;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 
 @Service
 public class PasswordGenService
 {
 
-    public String generate(List<Alphabet> alphabetSet, int pswdLen)
+    public char[] generate(List<Alphabet> alphabetSet, int pswdLen)
     {
         if (alphabetSet.isEmpty())
-            return "";
+            return new char[0];
 
         List<Character> combAlphabet = new ArrayList<>();
-
         for (Alphabet alphabet : alphabetSet)
             combAlphabet.addAll(alphabet.getSymbols());
+        
+        char[] password = new char[pswdLen];
+        for (int i = 0; i < pswdLen; i++)
+            password[i] = combAlphabet.get(ThreadLocalRandom.current().nextInt(0, combAlphabet.size()));
 
-        return ThreadLocalRandom.current().ints(pswdLen, 0, combAlphabet.size())
-                .mapToObj(combAlphabet::get)
-                .map(Object::toString)
-                .collect(Collectors.joining());
+        return password;
+    }
+
+
+    public void erasePswd(char[] pswd)
+    {
+        Arrays.fill(pswd, (char) 0);
     }
 }

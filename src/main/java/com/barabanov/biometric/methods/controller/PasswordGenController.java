@@ -23,10 +23,10 @@ public class PasswordGenController
 
 
     @GetMapping(value = "/generate")
-    public ResponseEntity<String> generate(
+    public ResponseEntity<?> generate(
             @RequestBody PasswordGenForm passwordGenForm)
     {
-        String password = passwordGenService.generate(passwordGenForm.getAlphabets(), passwordGenForm.getLength());
+        char[] password = passwordGenService.generate(passwordGenForm.getAlphabets(), passwordGenForm.getLength());
 
         return new ResponseEntity<>(password, HttpStatus.OK);
     }
