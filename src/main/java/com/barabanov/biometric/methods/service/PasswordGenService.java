@@ -1,5 +1,6 @@
-package com.barabanov.biometric.methods.password.generation;
+package com.barabanov.biometric.methods.service;
 
+import com.barabanov.biometric.methods.password.generation.alphabet.Alphabet;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
