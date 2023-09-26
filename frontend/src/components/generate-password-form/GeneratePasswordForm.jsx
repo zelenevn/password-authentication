@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import Diagram from "../diagramm/Diagram";
 
 const GeneratePasswordForm = () => {
     const [alphabet, setAlphabet] = useState("abcd")
@@ -32,7 +33,8 @@ const GeneratePasswordForm = () => {
                 <label>Введите длину: </label>
                 <input
                     type="number"
-                    min={1}
+                    min={2}
+                    max={1000}
                     value={length}
                     onChange={event => setLength(parseInt(event.target.value))}
                 />
@@ -42,6 +44,7 @@ const GeneratePasswordForm = () => {
                     Your password: {password}
                 </div>
             </form>
+            <Diagram password={password}/>
         </div>
     );
 };
