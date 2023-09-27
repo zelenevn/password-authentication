@@ -1,8 +1,12 @@
 package service;
 
-import com.barabanov.biometric.methods.service.PasswordGenService;
 import com.barabanov.biometric.methods.password.generation.alphabet.Alphabet;
+import com.barabanov.biometric.methods.password.generation.alphabet.Cyrillic;
+import com.barabanov.biometric.methods.password.generation.alphabet.Latin;
+import com.barabanov.biometric.methods.password.generation.alphabet.Symbol;
+import com.barabanov.biometric.methods.service.PasswordGenService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,10 +14,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.barabanov.biometric.methods.password.generation.alphabet.OrdinaryAlphabet.*;
+import static com.barabanov.biometric.methods.password.generation.alphabet.Symbol.NUMBERS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
+@TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 public class PasswordGenServiceTest
 {
 
@@ -49,6 +54,7 @@ public class PasswordGenServiceTest
     }
 
 
+
     private enum NewEnum implements Alphabet
     {
         E (Arrays.asList('a', '$', 'c'));
@@ -68,10 +74,14 @@ public class PasswordGenServiceTest
 
 
     @Test
-    public void shouldGeneratePswdFromOrdinaryAlphabet()
+    public void shouldGeneratePswdWithOrdinaryAlphabets()
     {
-        List<Alphabet> alphabets = Arrays.asList(LATIN_LOWERCASE, LATIN_UPPERCASE, CYRILLIC_UPPERCASE,
-                CYRILLIC_LOWERCASE, SPACE, SPECIAL_SYM, NUMBERS);
+        List<Alphabet> alphabets = Arrays.asList(
+                Latin.LOWERCASE, Latin.UPPERCASE,
+                Cyrillic.LOWERCASE, Cyrillic.UPPERCASE,
+                Symbol.NUMBERS, Symbol.SPECIAL, Symbol.SPACE
+                );
+
         char[] password = passwordGenService.generate(alphabets, 20);
 
         Set<Character> alphabet = alphabets.stream()
