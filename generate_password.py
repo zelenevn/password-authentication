@@ -1,5 +1,6 @@
 import secrets as s
 import string
+import math
 
 LOWERCASE = string.ascii_lowercase  # алфавит маленьких букв
 UPPERCASE = string.ascii_uppercase  # алфавит больших букв
@@ -23,7 +24,7 @@ def make_groups_distribution(count_groups: int, len_pass: int) -> list:
     return groups_distribution
 
 
-def generate_password(len_pass: int, num_selected_groups: list):
+def generate_password(len_pass: int, num_selected_groups: list) -> str:
     """функция, принимающая необходимую длину пароля и требуемые символы"""
     if len_pass < 7:
         raise ValueError('Пароль должен быть больше 6 символов')
@@ -53,24 +54,15 @@ def generate_password(len_pass: int, num_selected_groups: list):
     )
 
 
-def interface():
-    len_pass_str = input("Введите желаемую длину пароля: ")
-    len_pass = int(len_pass_str)
+def password_complexity(len_pass: int, num_selected_groups: list) -> str:
+    now_alphabet = ''.join([ALL_SYMBOLS[i] for i in num_selected_groups])
+    len_now_alphabet = len(now_alphabet)
 
-    num_selected_groups = []
-    for element in input(
-            """Введите через пробел желаемые алфавиты для пароля:\n0: a-z,\n1: A-Z,\n2: 0-9\n3: спец. смволы\n"""
-    ).split():
-        num_selected_groups.append(int(element))
+    entropy = len_pass * math.log2(len_now_alphabet)
 
-    return len_pass, num_selected_groups
+    if entropy < 50:
+        return 'Слабый'
+    if entropy > 70:
+        return 'Сложный'
 
-
-if __name__ == '__main__':
-    while True:
-        len_pass, num_selected_groups = interface()
-        try:
-            print("Пароль: " + generate_password(len_pass, num_selected_groups))
-            break
-        except ValueError:
-            print('Пароль должен содержать не менее трех групп символов и быть длиннее 6 символов')
+    return 'Средний'
