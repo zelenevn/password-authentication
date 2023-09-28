@@ -14,9 +14,12 @@ Alphabet = Enum('Alphabet', [('LOWER_CASE', ascii_lowercase),
 @functools.lru_cache(maxsize=None)
 def assemble_alphabet(alphabets: Iterable) -> str | None:
     string_io = io.StringIO()
-    for name, member in Alphabet.__members__.items():
-        if name in alphabets:
-            string_io.write(member.value)
+    for name in alphabets:
+        try:
+            value = Alphabet.__members__.get(name, None).value
+        except AttributeError:
+            raise AttributeError(f'Алфавита {name} не существует!')
+        string_io.write(value)
     if not bool(string_io.getvalue()):
         raise ValueError('Не был выбран какой-нибудь алфавит!')
 
