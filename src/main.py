@@ -1,5 +1,5 @@
 from pydantic import ValidationError
-from src.auth.router import register_user
+from src.auth.router import register_user, identify_user
 from src.utils.ascii_alphabet import assemble_alphabet
 from src.utils.key_listener import data_collection_for_input
 from src.utils.password_generator import PasswordGenerator
@@ -13,9 +13,7 @@ if __name__ == '__main__':
             print('Enter your password: ')
             password, intervals = data_collection_for_input()
             try:
-                pass
-                # user = User(username=username, hashed_password=password)
-                # Добавляем пользователя в базу данных или выполняем другие действия
+                print(identify_user(username=username, password=password, intervals=intervals))
             except ValidationError as e:
                 print(e)
         elif registered.lower() == 'n':

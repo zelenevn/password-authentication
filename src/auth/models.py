@@ -8,7 +8,8 @@ class User(Base):
     __tablename__ = 'user'
 
     username = Column(VARCHAR(16), primary_key=True)
-    registered_at = Column(DATE, nullable=False, default=datetime.now().isoformat())
+    registered_at = Column(DATE, nullable=False)
+    expired_at = Column(DATE, nullable=False)
     hashed_password = Column(VARCHAR(32), nullable=False)
     mean = Column(Float, default=None)
     notice_number = Column(Integer, nullable=False, default=0)
