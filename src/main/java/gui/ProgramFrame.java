@@ -3,6 +3,7 @@ package gui;
 import domain.generators.PasswordGenerator;
 import domain.generators.PasswordGeneratorImpl;
 import domain.listeners.ListenerOverlayKey;
+import domain.models.Alphabet;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,6 +27,7 @@ public class ProgramFrame extends JFrame {
     private JTextField thPasswordLength;
     private JButton jButton2;
     private final PasswordGenerator passwordGenerator = new PasswordGeneratorImpl();
+    private Alphabet alphabet = new Alphabet();
 
     public void showKeyHold(String averageKeyHold) {
         taKeyHold.setText(averageKeyHold);
@@ -51,9 +53,12 @@ public class ProgramFrame extends JFrame {
                     passwordLength = "10";
                 }
 
-                taPassword1.setText(passwordGenerator.generatePassword(Integer.parseInt(passwordLength),
-                        cbNumbers.isSelected(),
-                        cbSpecialSigns.isSelected(), cbUpperCase.isSelected()));
+                alphabet.addNumbers(cbNumbers.isSelected());
+                alphabet.addUpperCase(cbUpperCase.isSelected());
+                alphabet.addPunctuationMarks(cbSpecialSigns.isSelected());
+                taPassword1.setText(passwordGenerator.generatePassword(Integer.parseInt(passwordLength), alphabet));
+
+                alphabet = new Alphabet();
             }
         });
         jButton2.addActionListener(new ActionListener() {

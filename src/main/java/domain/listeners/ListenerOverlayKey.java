@@ -34,7 +34,6 @@ public class ListenerOverlayKey implements KeyListener {
         // Сохраняем клавишу
         if (clampedKey == 0) {
             clampedKey = e.getKeyChar();
-            System.out.println(e.getKeyChar());
         }
     }
 
