@@ -55,7 +55,3 @@ def average_parameter(X: list[list[float]]):
     :return: среднее значение вектора параметров xm.
     """
     return np.round(np.array(X, dtype=np.float64).mean(axis=0), ACCURACY)
-
-
-def median_value(x: list[float]):
-    return np.round(np.median(np.array(x)), ACCURACY)

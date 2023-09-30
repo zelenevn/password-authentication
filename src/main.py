@@ -43,7 +43,7 @@ def main():
             holdings_time = []
 
             i = 0
-            n = 5
+            n = 3
             while i < n:
                 print(f'Repeat your password ({n - i} times left): ')
                 try:

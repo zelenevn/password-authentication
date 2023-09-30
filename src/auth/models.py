@@ -9,8 +9,10 @@ class User(Base):
     registered_at = Column(DATE, nullable=False)
     expired_at = Column(DATE, nullable=False)
     hashed_password = Column(VARCHAR(32), nullable=False)
-    reference_for_dm_intervals = Column(ARRAY(Float), nullable=False)
-    reference_for_dm_holdings_time = Column(ARRAY(Float), nullable=False)
+    mu_intervals = Column(ARRAY(Float), nullable=False)
+    dm_intervals = Column(ARRAY(Float), nullable=False)
+    mu_holdings_time = Column(ARRAY(Float), nullable=False)
+    dm_holdings_time = Column(ARRAY(Float), nullable=False)
 
 # alembic revision --autogenerate -m "Database creation"
 # alembic upgrade head
