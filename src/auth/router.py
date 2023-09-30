@@ -30,21 +30,15 @@ def identify_user(*, username: str, password: str, intervals: list[float], holdi
 
         hashed_password = HashCode(s=password, salt=user['expired_at'].strftime('%Y-%m-%d'))
         if user['hashed_password'] != hashed_password.hex_value:
-            print(hashed_password.hex_value)
-            print(user['hashed_password'])
             raise ValidationError('Invalid password!')
 
         lower, upper = calculate_confidence_interval(user['dm_intervals'])
-        print(lower, upper)
         d = euclidean_distance(intervals, user['mu_intervals'])
-        print(d)
         if not (lower <= d <= upper):
             raise ValidationError('Invalid intervals!')
 
         lower, upper = calculate_confidence_interval(user['dm_holdings_time'])
-        print(lower, upper)
         d = euclidean_distance(holdings_time, user['mu_holdings_time'])
-        print(d)
         if not (lower <= d <= upper):
             raise ValidationError('Invalid holdings time')
 

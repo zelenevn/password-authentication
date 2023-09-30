@@ -1,5 +1,6 @@
 from pydantic import ValidationError
 from src.auth.router import register_user, identify_user
+from src.drawing.piecewise_constant_function import draw
 from src.utils.ascii_alphabet import assemble_alphabet
 from src.utils.key_listener import collect_data_for_input
 from src.utils.password_generator import PasswordGenerator
@@ -12,6 +13,7 @@ def main():
             username = input('Enter your username: ')
             print('Enter your password: ')
             password, intervals, holdings_time = collect_data_for_input()
+            draw(intervals, holdings_time)
             try:
                 response = identify_user(username=username,
                                          password=password,
