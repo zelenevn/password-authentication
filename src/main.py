@@ -1,21 +1,26 @@
 from pydantic import ValidationError
 from src.auth.router import register_user, identify_user
 from src.utils.ascii_alphabet import assemble_alphabet
-from src.utils.key_listener import data_collection_for_input
+from src.utils.key_listener import collect_data_for_input
 from src.utils.password_generator import PasswordGenerator
 
 
-if __name__ == '__main__':
+def main():
     while True:
         registered = input('Are you registered? (y/n): ')
         if registered.lower() == 'y':
             username = input('Enter your username: ')
             print('Enter your password: ')
-            password, intervals = data_collection_for_input()
+            password, intervals, holdings_time = collect_data_for_input()
             try:
-                print(identify_user(username=username, password=password, intervals=intervals))
+                response = identify_user(username=username,
+                                         password=password,
+                                         intervals=intervals,
+                                         holdings_time=holdings_time)
+                print(response)
             except ValidationError as e:
                 print(e)
+
         elif registered.lower() == 'n':
             username = input('Choose a username: ')
 
@@ -35,8 +40,29 @@ if __name__ == '__main__':
             password = PasswordGenerator(alphabet, length).value
             print(f'Your password:\n{password}')
 
+            intervals = []
+            holdings_time = []
+
+            n = 3
+            for i in range(n):
+                try:
+                    print(f'Repeat your password ({n - i} times left): ')
+                    password_i, intervals_i, holdings_time_i = collect_data_for_input()
+                    if password == password_i:
+                        intervals.append(intervals_i)
+                        holdings_time.append(holdings_time_i)
+                    else:
+                        raise ValueError('Invalid password! Try one more time!')
+                except ValueError as e:
+                    print(e)
+                    i -= 1
+                    continue
             try:
-                response = register_user(username=username, password=password)
+                response = register_user(username=username,
+                                         password=password,
+                                         intervals=intervals,
+                                         holdings_time=holdings_time)
+                print(response)
                 # Создаем нового пользователя в базе данных или выполняем другие действия
             except ValidationError as e:
                 print(e)
@@ -44,3 +70,9 @@ if __name__ == '__main__':
             break
         else:
             print('Invalid input. Please enter y, n or q.')
+
+
+if __name__ == '__main__':
+    # print('>> Введите свой пароль: ', end='')
+    # print(collect_data_for_input())
+    main()

@@ -1,6 +1,4 @@
-from datetime import datetime
-from sqlalchemy import Column, Integer, DATE, ForeignKey, Float, VARCHAR
-
+from sqlalchemy import Column, DATE, VARCHAR, ARRAY
 from src.database import Base
 
 
@@ -11,13 +9,8 @@ class User(Base):
     registered_at = Column(DATE, nullable=False)
     expired_at = Column(DATE, nullable=False)
     hashed_password = Column(VARCHAR(32), nullable=False)
-    mean = Column(Float, default=None)
-    notice_number = Column(Integer, nullable=False, default=0)
-    success_enter = Column(Integer, nullable=False, default=0)
-    fail_enter = Column(Integer, nullable=False, default=0)
+    metric_for_intervals = Column(ARRAY, nullable=False)
+    metric_for_holdings_time = Column(ARRAY, nullable=False)
 
-
-# alembic init migrations
-# затем настройка .env, конфига, env.py, а после
 # alembic revision --autogenerate -m "Database creation"
 # alembic upgrade head

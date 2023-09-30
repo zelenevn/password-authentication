@@ -1,43 +1,42 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 import hashlib
 import io
 import struct
 
 
-def _calculate_salted_hash_code(hash_name: str, s: str, salt: datetime.date, iterations: int, key_len: int):
-    password_bytes = bytes(s, 'utf-8')
-    salt = bytes(salt, 'utf-8')
-    return hashlib.pbkdf2_hmac(hash_name=hash_name,
-                               password=password_bytes,
-                               salt=salt,
-                               iterations=iterations,
-                               dklen=key_len)
-
-
-def _convert_to_hash_value(bytes_value: bytes):
-    string_io = io.StringIO()
-    for i in bytes_value:
-        a = struct.pack('B', i).hex()
-        string_io.write(a)
-    return string_io.getvalue()
-
-
 class HashCode:
-    def __init__(self,
-                 s: str,
-                 salt: datetime.date,
-                 *,
-                 hash_name: str = 'sha512_256',
-                 iterations: int = 4096,
-                 key_len: int = 16):
+    hash_name = 'sha512_256'
+    iterations = 4096
+    key_len = 16
 
-        self._bytes_value: bytes = _calculate_salted_hash_code(hash_name, s, salt, iterations, key_len)
-        self._hex_value: str = _convert_to_hash_value(self._bytes_value)
+    def __init__(self, s: str, salt: datetime.date):
+        s_bytes = s.encode('utf-8')
+        s_salt = salt.isoformat().encode('utf-8')
+
+        self._bytes_value = self._calculate_salted_hash_code(s_bytes, s_salt)
+        self._hex_value = self._convert_to_hash_value(self._bytes_value)
 
     @property
-    def bytes_value(self) -> bytes:
+    def bytes_value(self):
         return self._bytes_value
 
     @property
-    def hex_value(self) -> str:
+    def hex_value(self):
         return self._hex_value
+
+    def _calculate_salted_hash_code(self, s: bytes, salt: bytes):
+        return hashlib.pbkdf2_hmac(
+            hash_name=self.hash_name,
+            password=s,
+            salt=salt,
+            iterations=self.iterations,
+            dklen=self.key_len
+        )
+
+
+    def _convert_to_hash_value(self):
+        string_io = io.StringIO()
+        for i in self.bytes_value:
+            a = struct.pack('B', i).hex()
+            string_io.write(a)
+        return string_io.getvalue()

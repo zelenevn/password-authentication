@@ -3,7 +3,11 @@ from scipy import stats as st
 import numpy as np
 
 
-def calculate_confidence_interval(sample: list, alpha: float | None = None, std: float | None = None) -> tuple:
+ACCURACY: int = 9
+
+
+def calculate_confidence_interval(sample: list[float], alpha: float | None = None, std: float | None = None) -> (
+        tuple)[float, float]:
     """
     Функция рассчитывает доверительный интервал для выборки из генеральной совокупности.
     :param sample: выборка из ГС.
@@ -26,10 +30,29 @@ def calculate_confidence_interval(sample: list, alpha: float | None = None, std:
     if n <= 30:
         std_err = arr.std(ddof=n - 1) / np.sqrt(n)
         t_val = st.t.ppf(1 - alpha / 2, n - 1)
-        return np.round((mean - std_err * t_val, mean + std_err * t_val), 6)
+        return np.round((mean - std_err * t_val, mean + std_err * t_val), ACCURACY)
     else:
         if std is None:
             std = arr.std(ddof=n - 1)
         std_err = std / np.sqrt(n)
         z_val = st.norm(loc=0, scale=1).ppf(1 - alpha / 2)
-        return np.round((mean - std_err * z_val, mean + std_err * z_val), 6)
+        return np.round((mean - std_err * z_val, mean + std_err * z_val), ACCURACY)
+
+
+def euclidean_distance(x1: list[float], x2: list[float]) -> float:
+    """
+    Евклидово расстояние.
+    :param x1: первый вектор параметров.
+    :param x2: второй вектор параметров.
+    :return: вычисленное евклидово расстояние.
+    """
+    return np.round(np.linalg.norm(np.array(x1) - np.array(x2)), ACCURACY)
+
+
+def average_parameter(X: list[list[float]]) -> list[float]:
+    """
+    Функция считает среднее каждого параметра по всем попыткам ввода.
+    :param X: все попытки ввода.
+    :return: среднее значение вектора параметров xm.
+    """
+    return list(np.round(np.array(X).mean(axis=1)), ACCURACY)
