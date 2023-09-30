@@ -31,5 +31,6 @@ def collect_data_for_input() -> (str, list[float], list[float]):
 
     keyboard.hook(pressed_keys)
     keyboard.wait('Enter')
+    keyboard.unhook(pressed_keys)
 
     return ''.join(chars), intervals, holdings_time

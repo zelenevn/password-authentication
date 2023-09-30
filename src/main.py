@@ -33,7 +33,6 @@ def main():
                                      '>> ')
             chosen_alphabets = tuple(set([dic.get(x, None) for x in list(map(int, chosen_alphabets.split()))]))
             alphabet = assemble_alphabet(chosen_alphabets)
-            print(alphabet)
 
             length = int(input('Enter length: '))
 
@@ -43,20 +42,22 @@ def main():
             intervals = []
             holdings_time = []
 
-            n = 3
-            for i in range(n):
+            i = 0
+            n = 5
+            while i < n:
+                print(f'Repeat your password ({n - i} times left): ')
                 try:
-                    print(f'Repeat your password ({n - i} times left): ')
                     password_i, intervals_i, holdings_time_i = collect_data_for_input()
                     if password == password_i:
                         intervals.append(intervals_i)
                         holdings_time.append(holdings_time_i)
+                        i += 1
                     else:
                         raise ValueError('Invalid password! Try one more time!')
                 except ValueError as e:
                     print(e)
-                    i -= 1
                     continue
+
             try:
                 response = register_user(username=username,
                                          password=password,
@@ -73,6 +74,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # print('>> Введите свой пароль: ', end='')
-    # print(collect_data_for_input())
     main()

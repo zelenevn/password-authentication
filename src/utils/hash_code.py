@@ -9,12 +9,12 @@ class HashCode:
     iterations = 4096
     key_len = 16
 
-    def __init__(self, s: str, salt: datetime.date):
+    def __init__(self, *, s: str, salt: datetime.date):
         s_bytes = s.encode('utf-8')
         s_salt = salt.isoformat().encode('utf-8')
 
         self._bytes_value = self._calculate_salted_hash_code(s_bytes, s_salt)
-        self._hex_value = self._convert_to_hash_value(self._bytes_value)
+        self._hex_value = self._convert_to_hash_value()
 
     @property
     def bytes_value(self):
@@ -32,7 +32,6 @@ class HashCode:
             iterations=self.iterations,
             dklen=self.key_len
         )
-
 
     def _convert_to_hash_value(self):
         string_io = io.StringIO()

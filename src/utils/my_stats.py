@@ -6,8 +6,7 @@ import numpy as np
 ACCURACY: int = 9
 
 
-def calculate_confidence_interval(sample: list[float], alpha: float | None = None, std: float | None = None) -> (
-        tuple)[float, float]:
+def calculate_confidence_interval(sample: list[float], alpha: float | None = None, std: float | None = None):
     """
     Функция рассчитывает доверительный интервал для выборки из генеральной совокупности.
     :param sample: выборка из ГС.
@@ -20,7 +19,7 @@ def calculate_confidence_interval(sample: list[float], alpha: float | None = Non
     """
     arr = np.array(sample)
     if arr.ndim != 1 or arr.shape[0] < 2:
-        raise ValueError('Передан неверный массив!')
+        raise ValueError('Invalid array passed!')
 
     n = len(arr)
     mean = arr.mean()
@@ -39,7 +38,7 @@ def calculate_confidence_interval(sample: list[float], alpha: float | None = Non
         return np.round((mean - std_err * z_val, mean + std_err * z_val), ACCURACY)
 
 
-def euclidean_distance(x1: list[float], x2: list[float]) -> float:
+def euclidean_distance(x1: list[float], x2: list[float]):
     """
     Евклидово расстояние.
     :param x1: первый вектор параметров.
@@ -49,10 +48,14 @@ def euclidean_distance(x1: list[float], x2: list[float]) -> float:
     return np.round(np.linalg.norm(np.array(x1) - np.array(x2)), ACCURACY)
 
 
-def average_parameter(X: list[list[float]]) -> list[float]:
+def average_parameter(X: list[list[float]]):
     """
     Функция считает среднее каждого параметра по всем попыткам ввода.
     :param X: все попытки ввода.
     :return: среднее значение вектора параметров xm.
     """
-    return list(np.round(np.array(X).mean(axis=1)), ACCURACY)
+    return np.round(np.array(X, dtype=np.float64).mean(axis=0), ACCURACY)
+
+
+def median_value(x: list[float]):
+    return np.round(np.median(np.array(x)), ACCURACY)
