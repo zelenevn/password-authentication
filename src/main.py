@@ -38,8 +38,8 @@ def main():
 
             length = int(input('Enter length: '))
 
-            password = PasswordGenerator(alphabet, length).value
-            print(f'Your password:\n{password}')
+            password_obj = PasswordGenerator(alphabet, length)
+            print(f'Your password:\n{password_obj.value}')
 
             intervals = []
             holdings_time = []
@@ -50,7 +50,7 @@ def main():
                 print(f'Repeat your password ({n - i} times left): ')
                 try:
                     password_i, intervals_i, holdings_time_i = collect_data_for_input()
-                    if password == password_i:
+                    if password_obj.value == password_i:
                         intervals.append(intervals_i)
                         holdings_time.append(holdings_time_i)
                         i += 1
@@ -62,7 +62,8 @@ def main():
 
             try:
                 response = register_user(username=username,
-                                         password=password,
+                                         password=password_obj.value,
+                                         alphabet=password_obj.alphabet,
                                          intervals=intervals,
                                          holdings_time=holdings_time)
                 print(response)

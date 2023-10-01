@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import numpy as np
 
 
 def draw(intervals: list[float], holdings_time: list[float]):

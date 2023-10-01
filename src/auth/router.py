@@ -45,9 +45,14 @@ def identify_user(*, username: str, password: str, intervals: list[float], holdi
         return user
 
 
-def register_user(*, username: str, password: str, intervals: list[list[float]], holdings_time: list[list[float]]):
+def register_user(*, username: str, password: str, alphabet: str, intervals: list[list[float]], holdings_time: list[list[float]]):
     session = get_session()
     try:
+        if len(password) < 6:
+            raise ValidationError('The password must be at least 6 characters long!')
+        if len(alphabet) < 30:
+            raise ValidationError('The length of the alphabet is at least 30 characters!')
+
         registered_at = datetime.now()
         delta = 1
         expired_at = registered_at + timedelta(days=delta)
@@ -66,7 +71,7 @@ def register_user(*, username: str, password: str, intervals: list[list[float]],
 
         # коэффициент чувствительности
         # чем больше, тем свободнее можно отклоняться от средних показателей
-        k = 5
+        k = 2.5
         multiply_by_k = lambda X: list(np.array(X) * k)
 
         dm_intervals = multiply_by_k(dm_intervals)
