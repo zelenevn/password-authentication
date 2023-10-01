@@ -1,6 +1,7 @@
+package com.emelyanova.password.generation;
+
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FileUtils {
@@ -23,7 +24,7 @@ public class FileUtils {
     }
 
     public static List<String> fileNames(String combination){
-        String[] fileAliases = combination.split(",");
+        String[] fileAliases = combination.split("\s*,\s*");
         int[] number = new int[fileAliases.length];
         for (int i = 0; i < fileAliases.length; i++) {
             number[i] = Integer.parseInt(fileAliases[i]);

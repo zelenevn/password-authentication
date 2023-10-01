@@ -1,3 +1,5 @@
+package com.emelyanova.password.generation;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
@@ -19,10 +21,10 @@ public class ConsoleUI {
         scan.nextLine();
         System.out.println(
                 """
-                        To generate password you can use this alphabets or a combination of them through the ",":
-                        1 - latin lower case
-                        2 - latin upper case
-                        3 - numbers
+                        To generate password you can use this alphabets or a combination of them through the ",":\s
+                        1 - latin lower case\s
+                        2 - latin upper case\s
+                        3 - numbers\s
                         4 - special symbols""");
         String combinationAlphabet = scan.nextLine();
         List<String> fileNames = FileUtils.fileNames(combinationAlphabet);
