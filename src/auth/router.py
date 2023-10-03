@@ -37,7 +37,7 @@ def identify_user(*, username: str, password: str, intervals: list[float], holdi
                 'mu_holdings_time': list(user_obj[6]),
                 'dm_holdings_time': list(user_obj[7])}
 
-        if datetime.date(datetime.today()) >= user['expired_at']:
+        if datetime.date(datetime.today()) > user['expired_at']:
             raise ValueError('Login expired!')
 
         hashed_password = HashCode(s=password, salt=user['expired_at'].strftime('%Y-%m-%d'))

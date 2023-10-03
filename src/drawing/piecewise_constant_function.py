@@ -28,7 +28,7 @@ def draw(intervals: list[float], holdings_time: list[float]):
     plt.bar(x_coords, y_coords, width=width, bottom=bottom)
 
     # устанавливаем максимальную высоту гистограммы
-    plt.ylim((0, max(intervals)))
+    plt.ylim((0, max(intervals) + (max(intervals) / 2)))
     plt.minorticks_on()
     plt.xlim((0, x_sum))
     plt.grid(which='major')
