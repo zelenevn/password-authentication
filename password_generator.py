@@ -8,13 +8,13 @@ def password_entropy(password, total_alphabet_length):
     entropy = len(password) * math.log2(total_alphabet_length)
     # Определение уровня сложности пароля на основе информационной энтропии
     if entropy < 35:
-        return "Слабый"
+        return "Слабая"
     elif 35 <= entropy < 60:
-        return "Средний"
+        return "Средняя"
     elif 60 <= entropy < 128:
-        return "Высокий"
+        return "Высокая"
     else:
-        return "Очень высокий"
+        return "Очень высокая"
 
 
 class PasswordGenerator:
