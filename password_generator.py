@@ -7,9 +7,7 @@ def password_entropy(password, total_alphabet_length):
     # Расчет информационной энтропии
     entropy = len(password) * math.log2(total_alphabet_length)
     # Определение уровня сложности пароля на основе информационной энтропии
-    if entropy < 28:
-        return "Очень слабый"
-    elif 28 <= entropy < 35:
+    if entropy < 35:
         return "Слабый"
     elif 35 <= entropy < 60:
         return "Средний"
