@@ -77,7 +77,7 @@ def register_user(*, username: str, password: str, alphabet: str, intervals: lis
 
     # коэффициент чувствительности
     # чем больше, тем свободнее можно отклоняться от средних показателей
-    k = 2.5
+    k = 5
     multiply_by_k = lambda X: list(np.array(X) * k)
 
     dm_intervals = multiply_by_k(dm_intervals)
