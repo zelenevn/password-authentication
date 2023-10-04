@@ -13,6 +13,3 @@ class User(Base):
     dm_intervals = Column(ARRAY(Float), nullable=False)
     mu_holdings_time = Column(ARRAY(Float), nullable=False)
     dm_holdings_time = Column(ARRAY(Float), nullable=False)
-
-# alembic revision --autogenerate -m "Database creation"
-# alembic upgrade head

@@ -1,3 +1,4 @@
+import os
 from pydantic import ValidationError
 from src.auth.router import register_user, identify_user
 from src.drawing.piecewise_constant_function import draw
@@ -44,7 +45,7 @@ def main():
             while True:
                 answer = input('Would you like to save your password? (y/n) ')
                 if answer.lower() == 'y':
-                    with open('password.txt', mode='w', encoding='utf-8') as file:
+                    with open(f'{os.getcwd()}/password.txt', mode='w', encoding='utf-8') as file:
                         file.write(password_obj.value)
                     break
                 elif answer.lower() == 'n':
@@ -54,7 +55,7 @@ def main():
             holdings_time = []
 
             i = 0
-            n = 3
+            n = 5
             while i < n:
                 print(f'Repeat your password ({n - i} times left): ')
                 try:
