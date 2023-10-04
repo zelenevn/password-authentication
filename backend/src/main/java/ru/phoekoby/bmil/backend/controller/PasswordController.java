@@ -1,5 +1,6 @@
 package ru.phoekoby.bmil.backend.controller;
 
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +19,7 @@ public class PasswordController {
     PasswordService passwordService;
 
     @PostMapping("/generate")
-    public String generatePassword(@RequestBody GeneratePasswordDto dto){
+    public Character[] generatePassword(@Valid @RequestBody GeneratePasswordDto dto){
         return passwordService.generatePassword(dto);
     }
 }

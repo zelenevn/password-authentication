@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +34,13 @@ public class PasswordServiceTest {
 
     @Test
     public void testGenerator() {
-        String pass1 = passwordService.generatePassword(dto);
-        String pass2 = passwordService.generatePassword(dto);
-        System.out.printf(pass2);
-        Assertions.assertEquals(pass1.length(), length);
-        Assertions.assertEquals(pass2.length(), length);
+        Character[] pass1 = passwordService.generatePassword(dto);
+        Character[] pass2 = passwordService.generatePassword(dto);
+        Assertions.assertEquals(pass1.length, length);
+        Assertions.assertEquals(pass2.length, length);
         Assertions.assertNotEquals(pass2, pass1);
 
-        Arrays.stream(ArrayUtils.toObject(pass2.toCharArray()))
+        Arrays.stream(pass2)
                 .forEach(character -> assertTrue(alphabet.contains(character)));
     }
 }

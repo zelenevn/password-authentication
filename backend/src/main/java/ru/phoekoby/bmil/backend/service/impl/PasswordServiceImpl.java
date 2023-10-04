@@ -15,13 +15,12 @@ import java.util.Random;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PasswordServiceImpl implements PasswordService {
     @Override
-    public String generatePassword(GeneratePasswordDto dto) {
+    public Character[] generatePassword(GeneratePasswordDto dto) {
         List<Character> alphabet = dto.getAlphabet().stream().toList();
         return new Random()
                 .ints(0, alphabet.size())
                 .limit(dto.getLength())
                 .mapToObj(alphabet::get)
-                .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append)
-                .toString();
+                .toArray(Character[]::new);
     }
 }

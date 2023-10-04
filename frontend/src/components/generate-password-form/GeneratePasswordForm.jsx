@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import Diagram from "../diagramm/Diagram";
 
 const GeneratePasswordForm = () => {
-    const [alphabet, setAlphabet] = useState("abcd")
-    const [length, setLength] = useState(1)
+    const [alphabet, setAlphabet] = useState("abcdefg")
+    const [length, setLength] = useState(8)
     const [password, setPassword] = useState("Password")
 
     async function generatePass(e) {
@@ -17,8 +17,9 @@ const GeneratePasswordForm = () => {
             },
             body: JSON.stringify(data),
         })
-            .then(res => res.text())
-            .then(pass=>setPassword(pass));
+            .then(res => res.json())
+            .then(res => res.join(''))
+            .then(pass => setPassword(pass));
     }
 
     return (
@@ -33,7 +34,7 @@ const GeneratePasswordForm = () => {
                 <label>Введите длину: </label>
                 <input
                     type="number"
-                    min={2}
+                    min={8}
                     max={1000}
                     value={length}
                     onChange={event => setLength(parseInt(event.target.value))}
