@@ -1,10 +1,12 @@
+import datetime
+
 from pydantic import BaseModel, validator, ValidationError
 
 
 class UserValidator(BaseModel):
     username: str
-    registered_at: str
-    expired_at: str
+    registered_at: datetime.date
+    expired_at: datetime.date
     password: str
     alphabet: str
     hashed_password: str

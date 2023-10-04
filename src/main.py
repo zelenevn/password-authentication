@@ -41,6 +41,15 @@ def main():
             password_obj = PasswordGenerator(alphabet, length)
             print(f'Your password:\n{password_obj.value}')
 
+            while True:
+                answer = input('Would you like to save your password? (y/n) ')
+                if answer.lower() == 'y':
+                    with open('password.txt', mode='w', encoding='utf-8') as file:
+                        file.write(password_obj.value)
+                    break
+                elif answer.lower() == 'n':
+                    break
+
             intervals = []
             holdings_time = []
 

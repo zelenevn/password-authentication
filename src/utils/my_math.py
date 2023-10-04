@@ -12,7 +12,7 @@ def calculate_confidence_interval(sample: list[float], alpha: float | None = Non
     :param sample: выборка из ГС.
     :param alpha: уровень значимости; \
         пример: если нужно рассчитать 95% доверительный интервал, то alpha = 0.05; \
-        по умолчанию: alpha = 0.05.
+        по умолчанию: alpha = 0.01.
     :param std: стандартное отклонение предыдущих исследований \
         (для ГС большей, чем 30 наблюдений - известно, для выборки из ГС - нет).
     :return: возвращается нижняя и верхняя границы доверительного интервала.
@@ -54,4 +54,5 @@ def average_parameter(X: list[list[float]]):
     :param X: все попытки ввода.
     :return: среднее значение вектора параметров xm.
     """
-    return np.round(np.array(X, dtype=np.float64).mean(axis=0), ACCURACY)
+    matrix = np.array(X)
+    return np.round(np.mean(matrix[:, :], axis=0), ACCURACY)
