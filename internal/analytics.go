@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/go-echarts/go-echarts/v2/charts"
 	"github.com/go-echarts/go-echarts/v2/opts"
-	"os"
+	"io"
 )
 
 func FrequentDict(L uint, alphabet string, iterations uint) []freqValue {
@@ -50,7 +50,7 @@ func FrequentDict(L uint, alphabet string, iterations uint) []freqValue {
 	return result
 }
 
-func OutputToHtml(result []freqValue, f *os.File) {
+func OutputToHtml(result []freqValue, f io.Writer) {
 	items := make([]opts.BarData, 0)
 	var labels []string
 	for _, val := range result {
