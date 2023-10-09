@@ -1,0 +1,29 @@
+ui: TUI
+app:
+  name: MyApp
+  version: 1.0
+log:
+  level: info
+database:
+  host: localhost
+  port: 3306
+  user: myuser
+  password: mypassword
+  dbname: mydb
+password_languages:
+  English:
+    name: English
+    characters: abcdefghijklmnopqrstuvwxyz
+  Russian:
+    name: Russian
+    characters: абвгдежзийклмнопрстуфхцчшщъыьэюя
+password_options:
+  Symbols:
+    name: Symbols
+    characters: "!@#$%^&*()_+[]{};':|,.<>/?`~"
+  Digits:
+    name: Digits
+    characters: "0123456789"
+  Uppercase:
+    name: Uppercase
+    characters: ""
