@@ -1,0 +1,31 @@
+Menu {
+    background-color: #EEE;
+}
+
+.QLabel {
+    font: bold 16px;
+}
+#Title {
+    font: bold 24px;
+}
+
+.QLineEdit {
+    height: 20px;
+    font: 18px;
+    border-radius: 8px;
+    border: 1px solid #e0e4e7;
+    padding: 5px 15px;
+}
+
+#BtnSubmit {
+    height: auto;
+    font: bold 14px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background: #e0e0e0;
+    margin: 3px;
+}
+#BtnSubmit:hover {
+    border-radius: 10px;
+    background: #cecfd3;
+}
