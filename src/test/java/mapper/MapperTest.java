@@ -1,11 +1,14 @@
 package mapper;
 
 import com.barabanov.biometric.methods.dto.PswdGenDto;
+import com.barabanov.biometric.methods.json.serializer.PswdGenDtoDeserializer;
 import com.barabanov.biometric.methods.mapper.PswdGenMapper;
 import com.barabanov.biometric.methods.password.generation.alphabet.Cyrillic;
 import com.barabanov.biometric.methods.password.generation.alphabet.Latin;
 import com.barabanov.biometric.methods.password.generation.alphabet.Symbol;
 import com.barabanov.biometric.methods.service.AlphabetService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -17,8 +20,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestInstance(value = TestInstance.Lifecycle.PER_CLASS)
 public class MapperTest
 {
+    private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(PswdGenDto.class, new PswdGenDtoDeserializer(new AlphabetService()))
+            .create();
 
-    private static final PswdGenMapper pswdGenMapper = new PswdGenMapper(new AlphabetService());
+    private static final PswdGenMapper pswdGenMapper = new PswdGenMapper(new AlphabetService(), gson);
 
 
     @Test

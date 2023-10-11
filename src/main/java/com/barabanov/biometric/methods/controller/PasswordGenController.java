@@ -4,15 +4,11 @@ import com.barabanov.biometric.methods.dto.PswdGenDto;
 import com.barabanov.biometric.methods.mapper.PswdGenMapper;
 import com.barabanov.biometric.methods.service.AlphabetService;
 import com.barabanov.biometric.methods.service.PasswordGenService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -33,7 +29,7 @@ public class PasswordGenController
     }
 
 
-    @GetMapping(value = "/generate")
+    @PostMapping(value = "/generate")
     public ResponseEntity<?> generate(
             @RequestBody String pswdInfoAsJson)
     {

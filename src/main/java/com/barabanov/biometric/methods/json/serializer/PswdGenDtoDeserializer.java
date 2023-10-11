@@ -4,6 +4,7 @@ import com.barabanov.biometric.methods.dto.PswdGenDto;
 import com.barabanov.biometric.methods.service.AlphabetService;
 import com.google.gson.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 
+@Component
 @RequiredArgsConstructor
 public class PswdGenDtoDeserializer implements JsonDeserializer<PswdGenDto>
 {
