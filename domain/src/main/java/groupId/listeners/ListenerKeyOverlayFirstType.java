@@ -5,12 +5,12 @@ import groupId.ProgramFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class ListenerOverlayKey implements KeyListener {
+public class ListenerKeyOverlayFirstType implements KeyListener {
     private final ProgramFrame programFrame;
     private Character clampedKey = 0;
     private int numberOverlays = 0;
 
-    public ListenerOverlayKey(ProgramFrame programFrame) {
+    public ListenerKeyOverlayFirstType(ProgramFrame programFrame) {
         this.programFrame = programFrame;
     }
 
@@ -31,9 +31,7 @@ public class ListenerOverlayKey implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         // Сохраняем клавишу
-        if (clampedKey == 0) {
-            clampedKey = e.getKeyChar();
-        }
+        clampedKey = e.getKeyChar();
     }
 
     /**

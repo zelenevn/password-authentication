@@ -3,10 +3,12 @@ package groupId;
 import groupId.generators.PasswordGenerator;
 import groupId.generators.PasswordGeneratorImpl;
 import groupId.listeners.ListenerKeyHold;
+import groupId.listeners.ListenerKeyOverlayFirstType;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.security.SecureRandom;
 
 /**
@@ -38,7 +40,7 @@ public class ProgramFrame extends JFrame {
         passwordGenerator = new PasswordGeneratorImpl(new SecureRandom());
         cbLanguage.addItem("English");
         cbLanguage.addItem("German");
-        ListenerKeyHold listenerKeyHold = new ListenerKeyHold(ProgramFrame.this);
+        ListenerKeyOverlayFirstType listenerKeyHold = new ListenerKeyOverlayFirstType(ProgramFrame.this);
         tfPhrase.addKeyListener(listenerKeyHold);
         setContentPane(mainPanel);
         setTitle("Password Generator");
@@ -85,10 +87,10 @@ public class ProgramFrame extends JFrame {
         });
     }
 
-    private void checkLanguage(){
-        if (cbLanguage.getSelectedIndex() == 0){
+    private void checkLanguage() {
+        if (cbLanguage.getSelectedIndex() == 0) {
             alphabet = new EnglishAlphabet();
-        } else if (cbLanguage.getSelectedIndex() == 1){
+        } else if (cbLanguage.getSelectedIndex() == 1) {
             alphabet = new GermanAlphabet(alphabet);
         }
     }
