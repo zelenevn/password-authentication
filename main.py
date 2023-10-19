@@ -1,12 +1,13 @@
 import random
 import time
+import keyboard as keyboard
 import matplotlib.pyplot as plt
 
 characters = "1234567890abcdefghigklmnopqrstuvyxwzABCDEFGHIGKLMNOPQRSTUVYXWZ"
 num_passwords = 1
 max_length = int(input('Ведите длину пароля: '))
 if max_length < 0:
-    raise Exception('Длинна пароля неверна')
+    raise Exception('Длинна пароля не может быть отрицательна')
 
 passwords = []
 
@@ -19,22 +20,19 @@ for password in passwords:
     print(password)
 
 def measure_typing_time(password):
+    count = 0
     typing_times = []
     password_length = len(password)
 
-    for i in range(password_length):
-        start_time = time.time()
-        user_input = input("Введите символ пароля: ")
-        end_time = time.time()
-        typing_time = end_time - start_time
-
-        if user_input != password[i]:
-            print("Неверно введен символ пароля")
-            return
-
-        typing_times.append(typing_time)
-
+    start = time.time()
+    while count < password_length:
+        K = keyboard.read_key()
+        if keyboard.is_pressed(K):
+            count += 1
+            typing_times.append(time.time() - start)
+            start = time.time()
     return typing_times
+
 
 def plot_typing_times(typing_times):
     n = len(typing_times)
