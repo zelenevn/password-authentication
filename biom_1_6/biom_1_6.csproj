@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OxyPlot.Core" Version="2.1.2" />
+    <PackageReference Include="OxyPlot.WindowsForms" Version="2.1.2" />
+    <PackageReference Include="OxyPlot.Wpf" Version="2.1.2" />
+    <PackageReference Include="WinForms.DataVisualization" Version="1.8.0" />
+  </ItemGroup>
+
+</Project>

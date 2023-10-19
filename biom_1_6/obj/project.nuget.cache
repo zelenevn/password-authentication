@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "h6rBV099E3cLmPo0L5tYPZkJaaJvsnCd3Io4cCRc1+c+fXdzoaAOAOkk0hniTJzhKZNxHW8bkhiNunFJcUs1lw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\axlox\\OneDrive\\Рабочий стол\\password-authentication\\biom_1_6\\biom_1_6.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\axlox\\.nuget\\packages\\oxyplot.core\\2.1.2\\oxyplot.core.2.1.2.nupkg.sha512",
+    "C:\\Users\\axlox\\.nuget\\packages\\oxyplot.windowsforms\\2.1.2\\oxyplot.windowsforms.2.1.2.nupkg.sha512",
+    "C:\\Users\\axlox\\.nuget\\packages\\oxyplot.wpf\\2.1.2\\oxyplot.wpf.2.1.2.nupkg.sha512",
+    "C:\\Users\\axlox\\.nuget\\packages\\oxyplot.wpf.shared\\2.1.2\\oxyplot.wpf.shared.2.1.2.nupkg.sha512",
+    "C:\\Users\\axlox\\.nuget\\packages\\winforms.datavisualization\\1.8.0\\winforms.datavisualization.1.8.0.nupkg.sha512"
+  ],
+  "logs": []
+}
