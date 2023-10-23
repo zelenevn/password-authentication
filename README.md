@@ -13,7 +13,10 @@ pip install -r requirements.txt
   DB_NAME=...<br />
   DB_USER=...<br />
   DB_PASS=...<br />
-5. Настроить миграцию БД (ВАЖНО! в проекте используется СУБД postgres) в терминале через alembic:<br />
+5. Настроить миграцию БД:<br />
+  5.1. создать папку versions в папке migrations<br />
+  5.2. в терминале через alembic:<br />
   alembic revision --autogenerate -m "Database creation"<br />
   alembic upgrade head<br />
+  (ВАЖНО! в проекте используется СУБД postgres)<br />
 6. Затестить прогу и радоваться жизни! =)
