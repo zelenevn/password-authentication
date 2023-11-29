@@ -1,4 +1,4 @@
-module pw-auth
+module password-authentication
 
 go 1.20
 
