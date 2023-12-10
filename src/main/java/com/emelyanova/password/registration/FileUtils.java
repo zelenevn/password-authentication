@@ -1,4 +1,4 @@
-package com.emelyanova.password.generation;
+package com.emelyanova.password.registration;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -57,7 +57,4 @@ public class FileUtils {
         }
         return fileNames;
     }
-
-
-
 }

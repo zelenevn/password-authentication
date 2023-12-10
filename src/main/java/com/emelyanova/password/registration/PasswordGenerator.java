@@ -1,4 +1,4 @@
-package com.emelyanova.password.generation;
+package com.emelyanova.password.registration;
 
 import java.util.List;
 import java.util.Random;

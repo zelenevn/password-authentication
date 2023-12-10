@@ -1,6 +1,6 @@
 package password.generation;
 
-import com.emelyanova.password.generation.PasswordGenerator;
+import com.emelyanova.password.registration.PasswordGenerator;
 import org.junit.Test;
 
 import java.util.List;
